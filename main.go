@@ -15,7 +15,7 @@ func main() {
 	MakeDir(wscache)
 
 	Print("-------------------------------------")
-	Print("Bulk Downloader, Decryptor and Merger")
+	Print("          Methane Toolkit            ")
 	Print("     By github.com/HasinduLanka      ")
 	Print("-------------------------------------")
 	Print("")
@@ -30,11 +30,6 @@ func main() {
 	SA.Add(NewReusableLineProvider_IntRange(1, 4, 0))
 
 	URIListParser("", SA.Assemble().GetInstance(), false, nil, "output.html")
-
-	// UF, UErr := DownloadFileToString("https://quiz.kits2022.com/account.php?q=1")
-	// PrintError(UErr)
-
-	// Print(UF)
 
 }
 

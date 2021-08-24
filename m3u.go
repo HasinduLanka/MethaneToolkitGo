@@ -10,12 +10,12 @@ func URIListParser(PathPrefixForURIs string, URIProvider *LineProvider, IsEncryp
 
 	if IsEncrypted {
 		Decrypt := NewBytePipe_DecryptAES(key)
-		Merge := NewByteDestination_AppendToFile(OutFileName)
+		Merge := NewByteDestination_AppendToFile(wsroot + OutFileName)
 
 		BD = PipePlusDestination(&Decrypt, &Merge)
 
 	} else {
-		BD = NewByteDestination_AppendToFile(OutFileName)
+		BD = NewByteDestination_AppendToFile(wsroot + OutFileName)
 	}
 
 	ByteSrcs := URIsToByteSources(lp)

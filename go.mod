@@ -1,3 +1,3 @@
-module github.com/hasindulanka/BulkDownload
+module github.com/hasindulanka/MethaneToolkitGo
 
 go 1.16
