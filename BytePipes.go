@@ -20,6 +20,17 @@ func SourcePlusPipe(Source *ByteSource, Pipe *BytePipe) ByteSource {
 		},
 	}
 }
+func SourcePlusPipeCleaned(Source *ByteSource, Pipe *BytePipe) ByteSource {
+	return ByteSource{
+		Get: func() []byte {
+			B := Source.Get()
+			if len(B) != 0 {
+				return Pipe.Proc(B)
+			}
+			return nil
+		},
+	}
+}
 
 func PipePlusPipe(Pipe1 *BytePipe, Pipe2 *BytePipe) BytePipe {
 	return BytePipe{
@@ -29,10 +40,37 @@ func PipePlusPipe(Pipe1 *BytePipe, Pipe2 *BytePipe) BytePipe {
 	}
 }
 
+func PipePlusPipeCleaned(Pipe1 *BytePipe, Pipe2 *BytePipe) BytePipe {
+	return BytePipe{
+		Proc: func(data []byte) []byte {
+			if len(data) != 0 {
+				o1 := Pipe1.Proc(data)
+				if len(o1) != 0 {
+					Pipe2.Proc(o1)
+				}
+			}
+			return nil
+		},
+	}
+}
+
 func PipePlusDestination(Pipe1 *BytePipe, Pipe2 *ByteDestination) ByteDestination {
 	return ByteDestination{
 		Put: func(data []byte) {
 			Pipe2.Put(Pipe1.Proc(data))
+		},
+	}
+}
+
+func PipePlusDestinationCleaned(Pipe1 *BytePipe, Pipe2 *ByteDestination) ByteDestination {
+	return ByteDestination{
+		Put: func(data []byte) {
+			if len(data) != 0 {
+				o1 := Pipe1.Proc(data)
+				if len(o1) != 0 {
+					Pipe2.Put(o1)
+				}
+			}
 		},
 	}
 }
@@ -66,6 +104,20 @@ func NewBytePipe_EncryptAES(key []byte) BytePipe {
 	}
 }
 
+func NewBytePipe_EditEach(prefix []byte, suffix []byte) BytePipe {
+	return BytePipe{
+		Proc: func(data []byte) []byte {
+			return append(append(prefix, data...), suffix...)
+		},
+	}
+}
+
+func NewBytePipe_ApplyForEach(proc func([]byte) []byte) BytePipe {
+	return BytePipe{
+		Proc: proc,
+	}
+}
+
 func NewByteDestination_WriteToFile(filename string) ByteDestination {
 	return ByteDestination{
 		Put: func(data []byte) {
@@ -92,7 +144,7 @@ func NewByteDestination_WriteToFiles(FileNames *LineProvider) ByteDestination {
 				filename = UniqueStamp() + "-nameless"
 				Print("File names not enough")
 			}
-			WriteFile(filename, data)
+			go WriteFile(filename, data)
 		},
 	}
 }
