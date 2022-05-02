@@ -1,4 +1,4 @@
-package main
+package methane
 
 import (
 	"bytes"
@@ -44,7 +44,7 @@ func LoadURICached(uri string) ([]byte, error) {
 }
 
 func CachedName(uri string) string {
-	filename := wscache + ".cache-dwn-" + url.PathEscape(uri)
+	filename := WSCache + ".cache-dwn-" + url.PathEscape(uri)
 	return filename
 }
 

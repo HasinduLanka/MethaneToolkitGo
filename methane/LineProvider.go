@@ -1,4 +1,4 @@
-package main
+package methane
 
 import (
 	"fmt"
@@ -184,7 +184,7 @@ func UniqueStamp() string {
 }
 
 func NewCacheFilename() string {
-	return wscache + ".cached-" + UniqueStamp()
+	return WSCache + ".cached-" + UniqueStamp()
 }
 
 func padNumberWithZero(value int, minLengthInteger string) string {

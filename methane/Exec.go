@@ -1,4 +1,4 @@
-package main
+package methane
 
 import (
 	"fmt"
@@ -36,7 +36,7 @@ func ExcecProgram(program string, arg ...string) (string, error) {
 	Print("Excecute " + program + " " + args)
 
 	cmd := exec.Command(program, arg...)
-	cmd.Dir = wsroot
+	cmd.Dir = WSRoot
 	// configure `Stdout` and `Stderr`
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
@@ -60,7 +60,7 @@ func ExcecTask(program string, endTask chan bool, arg ...string) (string, error)
 	Print("Excecute Task " + program + " " + args)
 
 	cmd := exec.Command(program, arg...)
-	cmd.Dir = wsroot
+	cmd.Dir = WSRoot
 	// configure `Stdout` and `Stderr`
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stdout
@@ -88,7 +88,7 @@ func ExcecProgramToString(program string, arg ...string) (string, error) {
 	Print("Excecute " + program + " " + args)
 
 	cmd := exec.Command(program, arg...)
-	cmd.Dir = wsroot
+	cmd.Dir = WSRoot
 	// configure `Stdout` and `Stderr`
 	cmd.Stderr = os.Stdout
 	ret, err := cmd.Output()

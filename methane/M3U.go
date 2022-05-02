@@ -1,4 +1,4 @@
-package main
+package methane
 
 // Keep key nil for unencrypted
 func URIListParser(PathPrefixForURIs string, URIProvider *LineProvider, IsEncrypted bool, key []byte, OutFileName string) {
@@ -10,12 +10,12 @@ func URIListParser(PathPrefixForURIs string, URIProvider *LineProvider, IsEncryp
 
 	if IsEncrypted {
 		Decrypt := NewBytePipe_DecryptAES(key)
-		Merge := NewByteDestination_AppendToFile(wsroot + OutFileName)
+		Merge := NewByteDestination_AppendToFile(WSRoot + OutFileName)
 
 		BD = PipePlusDestination(&Decrypt, &Merge)
 
 	} else {
-		BD = NewByteDestination_AppendToFile(wsroot + OutFileName)
+		BD = NewByteDestination_AppendToFile(WSRoot + OutFileName)
 	}
 
 	ByteSrcs := URIsToByteSources(lp)
